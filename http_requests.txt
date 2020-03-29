@@ -1,0 +1,419 @@
+
+http://it.python-requests.org/it/latest/user/quickstart.html
+http://it.python-requests.org/it/latest/user/advanced.html
+http://it.python-requests.org/it/latest/api.html#requests.exceptions.ConnectionError
+
+#################################################################################
+NOTE: SOMETHING IS MASKING THE REAL VALUES :)
+#################################################################################
+
+
+payload = {'key1': 'value1', 'key2[]': ['value2', 'value3']}
+r = requests.get("http://httpbin.org/get", params=payload)
+print(r.url)
+r.text
+
+
+r.encoding
+'utf-8'
+r.encoding = 'ISO-8859-1'
+
+r.json()
+
+
+Cookie:
+
+url = 'http://example.com/some/cookie/setting/url'
+r = requests.get(url)
+r.cookies['example_cookie_name']
+'example_cookie_value'
+
+r.headers
+{'Server': 'nginx/1.16.1', 'Date': 'Sat, 28 Mar 2020 10:30:54 GMT', 'Content-Type': 'text/html; charset=UTF-8',
+'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'X-Powered-By': 'PHP/7.2.0',
+'Set-Cookie': 'PHPSESSID=SOMETHING; path=/', 'Expires': 'Thu, 19 Nov 1981 08:52:00 GMT',
+'Cache-Control': 'no-store, no-cache, must-revalidate', 'Pragma': 'no-cache'}
+
+r.cookies
+<RequestsCookieJar[Cookie(version=0, name='PHPSESSID', value='SOMETHING', port=None,
+port_specified=False, domain='www.bradecontrols.com', domain_specified=False, domain_initial_dot=False,
+path='/', path_specified=True, secure=False, expires=None, discard=True, comment=None, comment_url=None,
+rest={}, rfc2109=False)]>
+
+print(session.cookies.get_dict())
+{'PHPSESSID': 'SOMETHING'}
+
+r.cookies.keys()
+['PHPSESSID']
+
+
+payload = {'u_id': '=SOMETHING', 'a_id': '=SOMETHING', 'long': '=SOMETHING', 'lat': '=SOMETHING'}
+
+----------------------------------------------------------------------------------------------
+1 LOGIN:
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/User/login? HTTP/1.1
+
+REQUEST HEADER:
+Content-Length: 65
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Accept-Encoding: gzip
+
+PAYLOAD:
+password=SOMETHING&name=SOMETHING&language=2
+
+RESPONSE HEADER:
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 28 Mar 2020 16:51:57 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+X-Powered-By: PHP/7.2.0
+Set-Cookie: PHPSESSID=SOMETHING; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 201
+
+RESPONSE CONTENT:
+{"result":"succ","info":{"u_id":"SOMETHING","name":"SOMETHING","nike":"SOMETHING","a_list":[{"a_id":"SOMETHING","a_name":"Casa","temper_type":"0"}],"a_num":1,"eq_num":1},"msg":"Login successful"}
+
+PYTHON:
+import requests
+payload = {'password':'SOMETHING', 'name':'SOMETHING', 'language':'2'}
+r = requests.get("http://www.bradecontrols.com/api.php/User/login?", params=payload)
+print(r.url)
+r.text
+
+----------------------------------------------------------------------------------------------
+2 MY ADDRESS:
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/Index/my_address? HTTP/1.1
+
+REQUEST HEADER:
+Content-Length: 9
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Accept-Encoding: gzip
+
+PAYLOAD:
+u_id=SOMETHING
+
+RESPONSE HEADER:
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 28 Mar 2020 16:15:02 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+X-Powered-By: PHP/7.2.0
+Set-Cookie: PHPSESSID=SOMETHING; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 122
+
+RESPONSE CONTENT:
+{"result":"succ","info":[{"a_id":"SOMETHING","a_name":"Casa","temper_type":"0","lon":"SOMETHING","lat":"SOMETHING"}],"msg":""}
+
+PYTHON:
+payload = {'u_id': '=SOMETHING'}
+r = requests.get("http://www.bradecontrols.com/api.php/Index/my_address?", params=payload)
+print(r.url)
+r.text
+'{"result":"succ","info":[{"a_id":"SOMETHING","a_name":"Home","temper_type":"0","lon":"SOMETHING","lat":"SOMETHING"}],"msg":""}'
+
+----------------------------------------------------------------------------------------------
+3 INDEX:
+LA RICHESTA CONTINUA FINO A QUANDO NON VIENE SELEZIONATO UN TERMOSTATO
+SE VIENE SELEZIONATO UN TERMOSTATO SI PASSA ALLA RICHIESTA READ
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/Index/index? HTTP/1.1
+
+RQUEST HEADER:
+Content-Length: 49
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Cookie: PHPSESSID=SOMETHING
+Cookie2: $Version=1
+Accept-Encoding: gzip
+
+PAYLOAD:
+u_id=SOMETHING&a_id=SOMETHING&long=SOMETHING&lat=SOMETHING
+
+RESPONSE HEADER:
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 28 Mar 2020 16:16:59 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+X-Powered-By: PHP/7.2.0
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 595
+
+RESPONSE CONTENT:
+{"result":"succ","info":{"a_id":"SOMETHING","a_name":"Casa","distance":0,"lon":"SOMETHING","lat":"SOMETHING","eq_list":[{"eq_id":"SOMETHING","eq_name":"Sala da pranzo","tempera":"23.8","e_tempera":"17.5","speeds":"4","humidity":"36","antifreeze":"7","leave_days":"1","temper_type":"0","time_zone":"0","pattern":"5","versions":null,"leavestate":"1","optimized_startup":"0","temperature_difference":"0.5","holding_temperature":"25","holding_time":"0","holiday":"0","holiday_startime":"0","holiday_endtime":"0","standbys":"1","pattern_name":"\u6b63\u5e38","state":"1","e_id":"2"}],"temper_type":0},"msg":""}
+
+PYTHON:
+
+headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Host': 'www.bradecontrols.com',
+'User-Agent': 'www.bradecontrols.com', 'Cookie': 'PHPSESSID=SOMETHING',
+'Cookie2': '$Version=1', 'Accept-Encoding': 'gzip'}
+
+payload = {'u_id': '=SOMETHING', 'a_id': 'SOMETHING', 'long': 'SOMETHING', 'lat': 'SOMETHING'}
+r = requests.get("www.bradecontrols.com/api.php/Index/index?", params=payload, headers=headers)
+print(r.url)
+r.text
+
+'{"result":"succ","info":[{"a_id":"SOMETHING","a_name":"Home","temper_type":"0","lon":"SOMETHING","lat":"SOMETHING"}],"msg":""}'
+
+----------------------------------------------------------------------------------------------
+4 LETTURA STATO:
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/Index/eq_read? HTTP/1.1
+
+REQUEST HEADER:
+Content-Length: 19
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Cookie: PHPSESSID=SOMETHING
+Cookie2: $Version=1
+Accept-Encoding: gzip
+
+PAYLOAD:
+a_id=SOMETHING&e_id=SOMETHING
+
+RESPONSE HEADER:
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 28 Mar 2020 16:27:58 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+X-Powered-By: PHP/7.2.0
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 625
+
+RESPONSE CONTENT:
+{"result":"succ","info":{"eq_id":"SOMETHING","eq_name":"Sala da pranzo","a_id":"SOMETHING","a_name":"Casa","tempera":"23.8","e_tempera":"25.8","humidity":"37","pattern":"5","state":"1","pattern_name":"\u6b63\u5e38","e_id":"2","antifreeze":"7","delay_time":"0","temperature_difference":"0.5","holding_temperature":"25","holding_time":"0","keyboards":"1","standbys":"1","leave_days":"1","program_mode":"0","temper_type":"0","time_zone":"0","holiday":"0","holiday_startime":"0","holiday_endtime":"0","speed":"4","leave_geo":null,"return_geo":null,"leavestate":"1","keyboards_pass":"1111","optimized_startup":"0","versions":null},"msg":""}
+
+----------------------------------------------------------------------------------------------
+EDIT SWITCH:
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/Index/edit_switch? HTTP/1.1
+
+REQUEST HEADER:
+Content-Length: 18
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Cookie: PHPSESSID=SOMETHING
+Cookie2: $Version=1
+Accept-Encoding: gzip
+
+PAYLOAD:
+eq_id=SOMETHING&state=1
+
+RESPONSE CONTENT:
+{"result":"succ","info":"","msg":""}
+
+----------------------------------------------------------------------------------------------
+CONFIGURAZIONE TEMPERATURA:
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/Index/edit_temper? HTTP/1.1
+
+REQUEST HEADER:
+Content-Length: 27
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Accept-Encoding: gzip
+
+PAYLOAD:
+temperature=25.8&eq_id=SOMETHING
+
+RESPONSE HEADER:
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 28 Mar 2020 16:25:43 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+X-Powered-By: PHP/7.2.0
+Set-Cookie: PHPSESSID=SOMETHING; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 36
+
+RESPONSE CONTENT:
+{"result":"succ","info":"","msg":""}
+
+----------------------------------------------------------------------------------------------
+FUORI CASA:
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/Index/edit_leave_days? HTTP/1.1
+
+REQUEST HEADER:
+Content-Length: 33
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Cookie: PHPSESSID=SOMETHING
+Cookie2: $Version=1
+Accept-Encoding: gzip
+
+PAYLOAD:
+leave_days=2&a_id=SOMETHING&eq_id=SOMETHING
+
+RESPONSE HEADER:
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 28 Mar 2020 16:33:37 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+X-Powered-By: PHP/7.2.0
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 36
+
+RESPONSE CONTENT:
+{"result":"succ","info":"","msg":""}
+
+----------------------------------------------------------------------------------------------
+IN CASA:
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/Index/edit_leave_days? HTTP/1.1
+
+REQUEST HEADER:
+Content-Length: 33
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Cookie: PHPSESSID=SOMETHING
+Cookie2: $Version=1
+Accept-Encoding: gzip
+
+PAYLOAD:
+leave_days=1&a_id=SOMETHING&eq_id=SOMETHING
+
+RESPONSE HEADER:
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 28 Mar 2020 16:33:41 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+X-Powered-By: PHP/7.2.0
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 36
+
+RESPONSE CONTENT:
+{"result":"succ","info":"","msg":""}
+
+----------------------------------------------------------------------------------------------
+AVVIO OTTIMIZZATO:
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/Index/optimized_startup? HTTP/1.1
+
+REQUEST HEADER:
+Content-Length: 22
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Cookie: PHPSESSID=SOMETHING
+Cookie2: $Version=1
+Accept-Encoding: gzip
+
+PAYLOAD:
+optimized=1&eq_id=9714
+optimized=0&eq_id=9714
+
+RESPONSE HEADER:
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 28 Mar 2020 16:33:27 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+X-Powered-By: PHP/7.2.0
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 36
+
+RESPONSE CONTENT:
+{"result":"succ","info":"","msg":""}
+
+----------------------------------------------------------------------------------------------
+PARAMETRI:
+----------------------------------------------------------------------------------------------
+
+URL:
+POST http://www.bradecontrols.com/api.php/Index/parameter? HTTP/1.1
+
+REQUEST HEADER:
+Content-Length: 179
+Content-Type: application/x-www-form-urlencoded
+Host: www.bradecontrols.com
+Connection: Keep-Alive
+User-Agent: android-async-http/1.4.4 (http://loopj.com/android-async-http)
+Accept-Encoding: gzip
+
+PAYLOAD:
+holding_temperature=25&holding_time=0&keyboards=1&pattern=5&eq_id=9714&antifreeze=7&temperature_difference=0.5&a_id=8184&keyboards_pass=1111&standbys=1&program_mode=0&delay_time=0
+
+RESPONSE HEADER:
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 28 Mar 2020 17:02:36 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+X-Powered-By: PHP/7.2.0
+Set-Cookie: PHPSESSID=SOMETHING; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 36
+
+RESPONSE CONTENT:
+{"result":"succ","info":"","msg":""}
+
+
+
+
+
