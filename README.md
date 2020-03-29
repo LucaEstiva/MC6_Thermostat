@@ -13,8 +13,6 @@ class MC6:
     language="2"
     sessioncookie=""
     payload=""
-    mc6_mac="cc50e3ebd310"
-    # mac_id=cc50e3ebd310
     
     def __init__(self, username, password):
         self.username=username
