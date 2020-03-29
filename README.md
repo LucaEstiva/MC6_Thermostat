@@ -74,7 +74,7 @@ class MC6:
             content = r.json()
             print(content)
             # {"result":"succ","info":{"a_id":"SOMETHING","a_name":"Casa","distance":0,"lon":"SOMETHING","lat":"SOMETHING",
-            # "eq_list":[{"eq_id":"9714","eq_name":"Sala da pranzo","tempera":"23.8","e_tempera":"17.5","speeds":"4",
+            # "eq_list":[{"eq_id":"SOMETHING","eq_name":"Sala da pranzo","tempera":"23.8","e_tempera":"17.5","speeds":"4",
             # "humidity":"36","antifreeze":"7","leave_days":"1","temper_type":"0","time_zone":"0","pattern":"5","versions":null,
             # "leavestate":"1","optimized_startup":"0","temperature_difference":"0.5","holding_temperature":"25","holding_time":"0",
             # "holiday":"0","holiday_startime":"0","holiday_endtime":"0","standbys":"1","pattern_name":"\u6b63\u5e38","state":"1",
