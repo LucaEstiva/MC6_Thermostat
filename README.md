@@ -60,7 +60,7 @@ class MC6:
     def get_index(self):
         # str() int()
         headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Host': 'www.bradecontrols.com',
-        'User-Agent': 'www.bradecontrols.com', 'Cookie': 'PHPSESSID=v6chtn5dduu8p27ro04c351jse',
+        'User-Agent': 'www.bradecontrols.com', 'Cookie': 'PHPSESSID=SOMETHING',
         'Cookie2': '$Version=1', 'Accept-Encoding': 'gzip'}
         #
         payload = {'u_id':self.u_id, 'a_id':self.a_id, 'long':self.lon, 'lat':self.lat}
@@ -73,7 +73,7 @@ class MC6:
             print("------------------index------------------")
             content = r.json()
             print(content)
-            # {"result":"succ","info":{"a_id":"8184","a_name":"Casa","distance":0,"lon":"116.459198","lat":"39.885504",
+            # {"result":"succ","info":{"a_id":"SOMETHING","a_name":"Casa","distance":0,"lon":"SOMETHING","lat":"SOMETHING",
             # "eq_list":[{"eq_id":"9714","eq_name":"Sala da pranzo","tempera":"23.8","e_tempera":"17.5","speeds":"4",
             # "humidity":"36","antifreeze":"7","leave_days":"1","temper_type":"0","time_zone":"0","pattern":"5","versions":null,
             # "leavestate":"1","optimized_startup":"0","temperature_difference":"0.5","holding_temperature":"25","holding_time":"0",
